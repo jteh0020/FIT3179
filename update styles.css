@@ -1,0 +1,11 @@
+#choropleth_map {
+  width: min(96vw, 1100px);  
+  min-height: 420px;         
+  margin: 0 auto;            
+  display: block;
+}
+
+.vega-embed, .vega-embed > * {
+  width: 100% !important; 
+  height: auto !important;
+}
