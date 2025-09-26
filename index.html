@@ -11,6 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
   <!-- Custom stylesheet -->
+
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -19,14 +20,14 @@
     <p>This visualization shows major city-to-city domestic flight connections.</p>
 
     <!-- Container for Vega-Lite -->
-    <div id="australia_map"></div>
+    <div id="dot_map"></div>
   </main>
 
   <script>
     // Updated spec path
-    const specUrl = "js/australia_routes.vg.json";
+    const specUrl = "js/australia_with_labels.vg.json";
 
-    vegaEmbed('#australia_map', specUrl, { actions: false, renderer: "canvas" })
+    vegaEmbed('#dot_map', specUrl, { actions: false, renderer: "svg" })
       .then(result => {
         console.log("Visualization rendered successfully.");
       })

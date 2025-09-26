@@ -1,0 +1,16 @@
+#dot_map {
+  width: min(96vw, 600px);   /* responsive width, max 1100px */
+  min-height: 300px;          /* taller than 420px for better map visibility */
+  margin: 0 auto;             /* center horizontally */
+  display: block;
+  border: 1px solid #ddd;     /* subtle border around the map */
+  border-radius: 8px;         /* rounded corners */
+  background-color: #fafafa;  /* light background for contrast */
+  padding: 10px;
+}
+
+.vega-embed,
+.vega-embed > * {
+  width: 100% !important;
+  height: auto !important;
+}
