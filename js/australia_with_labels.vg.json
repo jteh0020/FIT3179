@@ -3,149 +3,122 @@
   "title": "Major Airports in Australia with State/Territory Labels",
   "width": 800,
   "height": 700,
-  "projection": { "type": "mercator", "scale": 900, "center": [133, -28] },
+  "projection": {"type": "mercator", "scale": 900, "center": [133, -28]},
+
+  "params": [
+    {
+      "name": "state_selection",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "Western Australia",
+          "Northern Territory",
+          "Queensland",
+          "South Australia",
+          "New South Wales",
+          "Victoria",
+          "Tasmania",
+          "Australian Capital Territory"
+        ],
+        "name": "Select State: "
+      }
+    }
+  ],
+
   "layer": [
     {
-      "data": { "graticule": { "step": [30, 30] } },
-      "mark": { "type": "geoshape", "stroke": "#ccc", "strokeDash": [2, 2], "opacity": 0.8 }
+      "data": {"graticule": {"step": [30, 30]}},
+      "mark": {"type": "geoshape", "stroke": "#ccc", "strokeDash": [2, 2], "opacity": 0.8}
     },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
-        "format": { "type": "json", "property": "features" }
+        "format": {"type": "json", "property": "features"}
       },
-      "mark": { "type": "geoshape", "fill": "#f0f0f0", "stroke": "#333", "strokeWidth": 1 },
+      "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "#333", "strokeWidth": 1},
       "encoding": {
         "tooltip": [
-          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory" },
-          { "field": "properties.STATE_CODE", "type": "nominal", "title": "Code" }
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory"},
+          {"field": "properties.STATE_CODE", "type": "nominal", "title": "Code"}
         ]
       }
     },
     {
       "data": {
         "values": [
-          { "state": "Western Australia", "longitude": 122, "latitude": -26, "short": "WA" },
-          { "state": "Northern Territory", "longitude": 133, "latitude": -20, "short": "NT" },
-          { "state": "Queensland", "longitude": 145, "latitude": -22, "short": "QLD" },
-          { "state": "South Australia", "longitude": 135, "latitude": -30, "short": "SA" },
-          { "state": "New South Wales", "longitude": 146, "latitude": -32, "short": "NSW" },
-          { "state": "Victoria", "longitude": 144, "latitude": -37, "short": "VIC" },
-          { "state": "Tasmania", "longitude": 147, "latitude": -42, "short": "TAS" },
-          { "state": "Australian Capital Territory", "longitude": 149, "latitude": -35.5, "short": "ACT" }
+          {"state": "Western Australia", "longitude": 122, "latitude": -26, "short": "WA"},
+          {"state": "Northern Territory", "longitude": 133, "latitude": -20, "short": "NT"},
+          {"state": "Queensland", "longitude": 145, "latitude": -22, "short": "QLD"},
+          {"state": "South Australia", "longitude": 135, "latitude": -30, "short": "SA"},
+          {"state": "New South Wales", "longitude": 146, "latitude": -32, "short": "NSW"},
+          {"state": "Victoria", "longitude": 144, "latitude": -37, "short": "VIC"},
+          {"state": "Tasmania", "longitude": 147, "latitude": -42, "short": "TAS"},
+          {"state": "Australian Capital Territory", "longitude": 149, "latitude": -35.5, "short": "ACT"}
         ]
       },
-      "mark": { "type": "text", "fontSize": 14, "fontWeight": "bold", "color": "black" },
+      "mark": {"type": "text", "fontSize": 14, "fontWeight": "bold", "color": "black"},
       "encoding": {
-        "longitude": { "field": "longitude", "type": "quantitative" },
-        "latitude": { "field": "latitude", "type": "quantitative" },
-        "text": { "field": "short", "type": "nominal" }
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "short", "type": "nominal"}
       }
     },
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv",
-        "format": { "type": "csv" }
-      },
-      "mark": { "type": "circle", "color": "red", "size": 80 },
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "mark": {"type": "circle", "color": "red", "size": 80},
       "encoding": {
-        "longitude": { "field": "Longitude", "type": "quantitative" },
-        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
         "tooltip": [
-          { "field": "City", "type": "nominal", "title": "Airport" },
-          { "field": "Longitude", "type": "quantitative" },
-          { "field": "Latitude", "type": "quantitative" }
+          {"field": "City", "type": "nominal", "title": "Airport"},
+          {"field": "Longitude", "type": "quantitative"},
+          {"field": "Latitude", "type": "quantitative"}
         ]
       }
     },
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv",
-        "format": { "type": "csv" }
-      },
-      "mark": { "type": "text", "fontSize": 10, "color": "darkblue", "dy": -8 },
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "mark": {"type": "text", "fontSize": 10, "color": "darkblue", "dy": -8},
       "encoding": {
-        "longitude": { "field": "Longitude", "type": "quantitative" },
-        "latitude": { "field": "Latitude", "type": "quantitative" },
-        "text": { "field": "City", "type": "nominal" }
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "text": {"field": "City", "type": "nominal"}
       }
     },
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv",
-        "format": { "type": "csv" }
-      },
-      "params": [
-        {
-          "name": "StateSelector",
-          "bind": {
-            "input": "select",
-            "options": [
-              null,
-              "Western Australia",
-              "Northern Territory",
-              "Queensland",
-              "South Australia",
-              "New South Wales",
-              "Victoria",
-              "Tasmania",
-              "Australian Capital Territory"
-            ],
-            "labels": [
-              "Show All",
-              "Western Australia",
-              "Northern Territory",
-              "Queensland",
-              "South Australia",
-              "New South Wales",
-              "Victoria",
-              "Tasmania",
-              "Australian Capital Territory"
-            ],
-            "name": "Filter by State:"
-          }
-        }
-      ],
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv", "format": {"type": "csv"}},
       "transform": [
         {
-          "filter": "StateSelector == null || datum.State == StateSelector"
+          "filter": "state_selection == 'All' || datum.State == state_selection"
         }
       ],
-      "mark": { "type": "rule", "stroke": "steelblue", "strokeWidth": 1.5, "opacity": 0.6 },
+      "mark": {"type": "rule", "stroke": "steelblue", "strokeWidth": 1.5, "opacity": 0.6},
       "encoding": {
-        "longitude": { "field": "Long1", "type": "quantitative" },
-        "latitude": { "field": "Lat1", "type": "quantitative" },
-        "longitude2": { "field": "Long2", "type": "quantitative" },
-        "latitude2": { "field": "Lat2", "type": "quantitative" },
+        "longitude": {"field": "Long1", "type": "quantitative"},
+        "latitude": {"field": "Lat1", "type": "quantitative"},
+        "longitude2": {"field": "Long2", "type": "quantitative"},
+        "latitude2": {"field": "Lat2", "type": "quantitative"},
         "tooltip": [
-          { "field": "City1", "type": "nominal", "title": "From" },
-          { "field": "City2", "type": "nominal", "title": "To" },
-          { "field": "State", "type": "nominal", "title": "State" }
+          {"field": "City1", "type": "nominal", "title": "From"},
+          {"field": "City2", "type": "nominal", "title": "To"},
+          {"field": "State", "type": "nominal", "title": "State"}
         ],
-        "color": { "field": "State", "type": "nominal", "legend": { "title": "State" } }
+        "color": {"field": "State", "type": "nominal", "legend": {"title": "State"}}
       }
     },
     {
       "data": {
         "values": [
-          {
-            "longitude": 133,
-            "latitude": -10,
-            "text": "Domestic Flight Routes across Major Australian Airports"
-          }
+          {"longitude": 133, "latitude": -10, "text": "Domestic Flight Routes across Major Australian Airports"}
         ]
       },
-      "mark": {
-        "type": "text",
-        "fontSize": 16,
-        "fontWeight": "bold",
-        "color": "#222",
-        "align": "center"
-      },
+      "mark": {"type": "text", "fontSize": 16, "fontWeight": "bold", "color": "#222", "align": "center"},
       "encoding": {
-        "longitude": { "field": "longitude", "type": "quantitative" },
-        "latitude": { "field": "latitude", "type": "quantitative" },
-        "text": { "field": "text", "type": "nominal" }
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "text", "type": "nominal"}
       }
     }
   ]

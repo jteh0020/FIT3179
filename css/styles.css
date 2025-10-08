@@ -14,3 +14,25 @@
   width: 100% !important;
   height: auto !important;
 }
+
+/* Center the selector dropdown above the map */
+#selector-container {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Slightly adjust the dropdown styling */
+.vega-bind-name {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.vega-bind select {
+  padding: 3px 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
