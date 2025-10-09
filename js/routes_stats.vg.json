@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Top 10 Busiest Domestic Routes (by Passenger Trips)",
+  "width": 600,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv",
+    "format": { "type": "csv" }
+  },
+  "params": [
+    {
+      "name": "year_select",
+      "value": 1984,
+      "bind": {
+        "input": "range",
+        "min": 1984,
+        "max": 2024,
+        "step": 1,
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "transform": [
+    { "filter": "datum.Year == year_select" },
+    { "calculate": "datum.City1 + ' → ' + datum.City2", "as": "Route" },
+    {
+      "aggregate": [{ "op": "sum", "field": "Passenger_Trips", "as": "Total_Trips" }],
+      "groupby": ["Route"]
+    },
+    {
+      "window": [{ "op": "rank", "as": "rank" }],
+      "sort": [{ "field": "Total_Trips", "order": "descending" }]
+    },
+    { "filter": "datum.rank <= 10" }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": { "field": "Route", "type": "nominal", "sort": "-x", "title": "Route" },
+    "x": { "field": "Total_Trips", "type": "quantitative", "title": "Passenger Trips" },
+    "color": { "field": "Total_Trips", "type": "quantitative", "legend": null },
+    "tooltip": [
+      { "field": "Route", "type": "nominal" },
+      { "field": "Total_Trips", "type": "quantitative", "title": "Passenger Trips" }
+    ]
+  }
+}
