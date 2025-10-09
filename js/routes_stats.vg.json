@@ -1,13 +1,30 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Top 10 Busiest Domestic Routes (by Passenger Trips)",
-  "width": 600,
-  "height": 400,
-  "data": {
-    "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv",
-    "format": { "type": "csv" }
-  },
+  "title": "Domestic Flight Routes Across Major Australian Airports (1984–2024)",
+  "width": 800,
+  "height": 700,
+  "projection": {"type": "mercator", "scale": 900, "center": [133, -28]},
+
   "params": [
+    {
+      "name": "state_selection",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "Western Australia",
+          "Northern Territory",
+          "Queensland",
+          "South Australia",
+          "New South Wales",
+          "Victoria",
+          "Tasmania",
+          "Australian Capital Territory"
+        ],
+        "name": "Select State: "
+      }
+    },
     {
       "name": "year_select",
       "value": 1984,
@@ -20,27 +37,157 @@
       }
     }
   ],
-  "transform": [
-    { "filter": "datum.Year == year_select" },
-    { "calculate": "datum.City1 + ' → ' + datum.City2", "as": "Route" },
+
+  "layer": [
     {
-      "aggregate": [{ "op": "sum", "field": "Passenger_Trips", "as": "Total_Trips" }],
-      "groupby": ["Route"]
+      "data": {"graticule": {"step": [30, 30]}},
+      "mark": {"type": "geoshape", "stroke": "#ccc", "strokeDash": [2, 2], "opacity": 0.8}
     },
     {
-      "window": [{ "op": "rank", "as": "rank" }],
-      "sort": [{ "field": "Total_Trips", "order": "descending" }]
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "#333", "strokeWidth": 1},
+      "encoding": {
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory"},
+          {"field": "properties.STATE_CODE", "type": "nominal", "title": "Code"}
+        ]
+      }
     },
-    { "filter": "datum.rank <= 10" }
-  ],
-  "mark": "bar",
-  "encoding": {
-    "y": { "field": "Route", "type": "nominal", "sort": "-x", "title": "Route" },
-    "x": { "field": "Total_Trips", "type": "quantitative", "title": "Passenger Trips" },
-    "color": { "field": "Total_Trips", "type": "quantitative", "legend": null },
-    "tooltip": [
-      { "field": "Route", "type": "nominal" },
-      { "field": "Total_Trips", "type": "quantitative", "title": "Passenger Trips" }
-    ]
-  }
+    {
+      "data": {
+        "values": [
+          {"state": "Western Australia", "longitude": 122, "latitude": -26, "short": "WA"},
+          {"state": "Northern Territory", "longitude": 133, "latitude": -20, "short": "NT"},
+          {"state": "Queensland", "longitude": 145, "latitude": -22, "short": "QLD"},
+          {"state": "South Australia", "longitude": 135, "latitude": -30, "short": "SA"},
+          {"state": "New South Wales", "longitude": 146, "latitude": -32, "short": "NSW"},
+          {"state": "Victoria", "longitude": 144, "latitude": -37, "short": "VIC"},
+          {"state": "Tasmania", "longitude": 147, "latitude": -42, "short": "TAS"},
+          {"state": "Australian Capital Territory", "longitude": 149, "latitude": -35.5, "short": "ACT"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 14, "fontWeight": "bold", "color": "black"},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "short", "type": "nominal"}
+      }
+    },
+    {
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "transform": [
+        {
+          "filter": "!(['HAMILTON ISLAND', 'ARMIDALE', 'SUNSHINE COAST'].includes(datum.City))"
+        }
+      ],
+      "mark": {"type": "circle", "color": "red", "size": 80},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "tooltip": [
+          {"field": "City", "type": "nominal", "title": "Airport"},
+          {"field": "Longitude", "type": "quantitative"},
+          {"field": "Latitude", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "transform": [
+        {
+          "filter": "!(['HAMILTON ISLAND', 'ARMIDALE', 'SUNSHINE COAST'].includes(datum.City))"
+        }
+      ],
+      "mark": {"type": "text", "fontSize": 10, "color": "darkblue"},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "text": {"field": "City", "type": "nominal"},
+        "dx": {
+          "condition": [{"test": "datum.City == 'PROSERPINE'", "value": 12}],
+          "value": 0
+        },
+        "dy": {
+          "condition": [{"test": "datum.City == 'PROSERPINE'", "value": -10}],
+          "value": -6
+        }
+      }
+    },
+    {
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv", "format": {"type": "csv"}},
+      "transform": [
+        {"filter": "isValid(datum.Year) && datum.Year == year_select"},
+        {
+          "lookup": "City1",
+          "from": {
+            "data": {
+              "values": [
+                {"City": "PERTH", "State": "Western Australia"},
+                {"City": "GERALDTON", "State": "Western Australia"},
+                {"City": "KALGOORLIE", "State": "Western Australia"},
+                {"City": "KARRATHA", "State": "Western Australia"},
+                {"City": "DARWIN", "State": "Northern Territory"},
+                {"City": "ALICE SPRINGS", "State": "Northern Territory"},
+                {"City": "CAIRNS", "State": "Queensland"},
+                {"City": "BRISBANE", "State": "Queensland"},
+                {"City": "GOLD COAST", "State": "Queensland"},
+                {"City": "HERVEY BAY", "State": "Queensland"},
+                {"City": "BUNDABERG", "State": "Queensland"},
+                {"City": "PROSERPINE", "State": "Queensland"},
+                {"City": "SYDNEY", "State": "New South Wales"},
+                {"City": "DUBBO", "State": "New South Wales"},
+                {"City": "NEWCASTLE", "State": "New South Wales"},
+                {"City": "COFFS HARBOUR", "State": "New South Wales"},
+                {"City": "CANBERRA", "State": "Australian Capital Territory"},
+                {"City": "MELBOURNE", "State": "Victoria"},
+                {"City": "ALBURY", "State": "New South Wales"},
+                {"City": "ADELAIDE", "State": "South Australia"},
+                {"City": "HOBART", "State": "Tasmania"},
+                {"City": "LAUNCESTON", "State": "Tasmania"},
+                {"City": "DEVONPORT", "State": "Tasmania"}
+              ]
+            },
+            "key": "City",
+            "fields": ["State"]
+          }
+        },
+        {
+          "filter": "state_selection == 'All' || datum.State == state_selection"
+        },
+        {
+          "filter": "!(['HAMILTON ISLAND', 'ARMIDALE', 'SUNSHINE COAST'].includes(datum.City1) || ['HAMILTON ISLAND', 'ARMIDALE', 'SUNSHINE COAST'].includes(datum.City2))"
+        }
+      ],
+      "mark": {"type": "rule", "stroke": "steelblue", "strokeWidth": 1.2, "opacity": 0.6},
+      "encoding": {
+        "longitude": {"field": "Long1", "type": "quantitative"},
+        "latitude": {"field": "Lat1", "type": "quantitative"},
+        "longitude2": {"field": "Long2", "type": "quantitative"},
+        "latitude2": {"field": "Lat2", "type": "quantitative"},
+        "tooltip": [
+          {"field": "City1", "type": "nominal", "title": "From"},
+          {"field": "City2", "type": "nominal", "title": "To"},
+          {"field": "Year", "type": "quantitative", "title": "Year"},
+          {"field": "State", "type": "nominal", "title": "Origin State"}
+        ],
+        "color": {"field": "State", "type": "nominal", "legend": {"title": "Origin State"}}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"longitude": 133, "latitude": -10, "text": "Domestic Flight Routes Across Major Australian Airports (1984–2024)"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 16, "fontWeight": "bold", "color": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "text", "type": "nominal"}
+      }
+    }
+  ]
 }
