@@ -15,6 +15,17 @@
   height: auto !important;
 }
 
+#bar_vis {
+  width: min(96vw, 700px);
+  min-height: 350px;          /* ensures it has space to render */
+  margin: 30px auto;          /* adds spacing from the map */
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  padding: 10px;
+}
+
 /* Center the selector dropdown above the map */
 #selector-container {
   text-align: center;
