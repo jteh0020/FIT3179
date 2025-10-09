@@ -77,7 +77,7 @@
       }
     },
     {
-      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/data/australia_cities.csv", "format": {"type": "csv"}},
       "mark": {"type": "circle", "color": "red", "size": 80},
       "encoding": {
         "longitude": {"field": "Longitude", "type": "quantitative"},
@@ -90,7 +90,7 @@
       }
     },
     {
-      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/data/australia_cities.csv", "format": {"type": "csv"}},
       "transform": [
         {
           "calculate": "datum.City == 'HAMILTON ISLAND' ? datum.Longitude +20 : datum.Longitude",
@@ -109,7 +109,7 @@
       }
     },
     {
-      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv", "format": {"type": "csv"}},
+      "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/data/dom_citypairs.csv", "format": {"type": "csv"}},
       "transform": [
         {"filter": "state_selection == 'All' || datum.State == state_selection"},
         {"filter": "datum.Year == year_slider"},

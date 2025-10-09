@@ -4,7 +4,7 @@
   "width": 700,
   "height": 450,
   "data": {
-    "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv",
+    "url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/data/dom_citypairs.csv",
     "format": {
       "type": "csv",
       "parse": {
