@@ -5,35 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Domestic Air Travel Routes in Australia</title>
 
-  <!-- Vega & Vega-Lite -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
-  <!-- Custom stylesheet -->
-
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<main class="page">
-  <h1>Domestic Air Travel Routes in Australia</h1>
-  <p>This visualization shows major city-to-city domestic flight connections.</p>
-
-  <div class="map-container">
-    <div id="selector-container"></div>
+  <main class="page">
+    <h1>Domestic Air Travel Routes in Australia</h1>
     <div id="dot_map"></div>
-  </div>
-</main>
+    <h2>Top 10 Busiest Domestic Routes</h2>
+    <div id="bar_vis"></div>
+  </main>
 
   <script>
-    // Updated spec path
-    const specUrl = "js/australia_with_labels.vg.json";
-
-    vegaEmbed('#dot_map', specUrl, { actions: false, renderer: "svg" })
-      .then(result => {
-        console.log("Visualization rendered successfully.");
-      })
-      .catch(console.error);
+    vegaEmbed('#dot_map', 'js/australia_with_labels.vg.json', { actions: false, renderer: "svg" });
+    vegaEmbed('#bar_vis', 'js/routes_stats.vg.json', { actions: false, renderer: "svg" });
   </script>
 </body>
 </html>

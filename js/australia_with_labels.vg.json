@@ -24,6 +24,17 @@
         ],
         "name": "Select State: "
       }
+    },
+    {
+      "name": "year_slider",
+      "value": 1984,
+      "bind": {
+        "input": "range",
+        "min": 1984,
+        "max": 2024,
+        "step": 1,
+        "name": "Select Year: "
+      }
     }
   ],
 
@@ -80,21 +91,63 @@
     },
     {
       "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/australia_cities.csv", "format": {"type": "csv"}},
-      "mark": {"type": "text", "fontSize": 10, "color": "darkblue", "dy": -8},
+      "transform": [
+        {
+          "calculate": "datum.City == 'HAMILTON ISLAND' ? datum.Longitude +20 : datum.Longitude",
+          "as": "adjusted_lon"
+        },
+        {
+          "calculate": "datum.City == 'HAMILTON ISLAND' ? datum.Latitude -0.5 : datum.Latitude",
+          "as": "adjusted_lat"
+        }
+      ],
+      "mark": {"type": "text", "fontSize": 10, "color": "darkblue"},
       "encoding": {
-        "longitude": {"field": "Longitude", "type": "quantitative"},
-        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "longitude": {"field": "adjusted_lon", "type": "quantitative"},
+        "latitude": {"field": "adjusted_lat", "type": "quantitative"},
         "text": {"field": "City", "type": "nominal"}
       }
     },
     {
       "data": {"url": "https://raw.githubusercontent.com/jteh0020/FIT3179/main/dom_citypairs.csv", "format": {"type": "csv"}},
       "transform": [
+        {"filter": "state_selection == 'All' || datum.State == state_selection"},
+        {"filter": "datum.Year == year_slider"},
         {
-          "filter": "state_selection == 'All' || datum.State == state_selection"
+          "lookup": "City1",
+          "from": {
+            "data": {
+              "values": [
+                {"City": "PERTH", "State": "Western Australia"},
+                {"City": "GERALDTON", "State": "Western Australia"},
+                {"City": "KALGOORLIE", "State": "Western Australia"},
+                {"City": "KARRATHA", "State": "Western Australia"},
+                {"City": "DARWIN", "State": "Northern Territory"},
+                {"City": "ALICE SPRINGS", "State": "Northern Territory"},
+                {"City": "CAIRNS", "State": "Queensland"},
+                {"City": "BRISBANE", "State": "Queensland"},
+                {"City": "GOLD COAST", "State": "Queensland"},
+                {"City": "HERVEY BAY", "State": "Queensland"},
+                {"City": "BUNDABERG", "State": "Queensland"},
+                {"City": "PROSERPINE", "State": "Queensland"},
+                {"City": "SYDNEY", "State": "New South Wales"},
+                {"City": "DUBBO", "State": "New South Wales"},
+                {"City": "NEWCASTLE", "State": "New South Wales"},
+                {"City": "COFFS HARBOUR", "State": "New South Wales"},
+                {"City": "CANBERRA", "State": "Australian Capital Territory"},
+                {"City": "MELBOURNE", "State": "Victoria"},
+                {"City": "ADELAIDE", "State": "South Australia"},
+                {"City": "HOBART", "State": "Tasmania"},
+                {"City": "LAUNCESTON", "State": "Tasmania"},
+                {"City": "DEVONPORT", "State": "Tasmania"}
+              ]
+            },
+            "key": "City",
+            "fields": ["State"]
+          }
         }
       ],
-      "mark": {"type": "rule", "stroke": "steelblue", "strokeWidth": 1.5, "opacity": 0.6},
+      "mark": {"type": "rule", "stroke": "steelblue", "strokeWidth": 1.2, "opacity": 0.6},
       "encoding": {
         "longitude": {"field": "Long1", "type": "quantitative"},
         "latitude": {"field": "Lat1", "type": "quantitative"},
@@ -103,17 +156,14 @@
         "tooltip": [
           {"field": "City1", "type": "nominal", "title": "From"},
           {"field": "City2", "type": "nominal", "title": "To"},
-          {"field": "State", "type": "nominal", "title": "State"}
+          {"field": "Year", "type": "quantitative", "title": "Year"},
+          {"field": "Passenger_Trips", "type": "quantitative", "title": "Passenger Trips"}
         ],
-        "color": {"field": "State", "type": "nominal", "legend": {"title": "State"}}
+        "color": {"field": "State", "type": "nominal", "legend": {"title": "Origin State"}}
       }
     },
     {
-      "data": {
-        "values": [
-          {"longitude": 133, "latitude": -10, "text": "Domestic Flight Routes across Major Australian Airports"}
-        ]
-      },
+      "data": {"values": [{"longitude": 133, "latitude": -10, "text": "Domestic Flight Routes across Major Australian Airports"}]},
       "mark": {"type": "text", "fontSize": 16, "fontWeight": "bold", "color": "#222", "align": "center"},
       "encoding": {
         "longitude": {"field": "longitude", "type": "quantitative"},
